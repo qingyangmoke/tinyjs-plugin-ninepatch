@@ -11,7 +11,7 @@
  * @class Sprite
  * @constructor
  * @memberof Tiny.NinePatch
- * @extends Tiny.Container
+ * @extends Tiny.Sprite
  */
 class Sprite extends Tiny.Sprite {
   /**

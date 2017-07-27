@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>tinyjs - 九宫格</title>
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="yes" name="apple-touch-fullscreen" />
+  <meta content="telephone=no,email=no" name="format-detection" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <style>
+    html,
+    body,
+    p,
+    div {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <script src="libs/tiny.debug.js"></script>
+  <script src="../dist/index.debug.js"></script>
+
+  <script type="text/javascript">
+    var config = {
+      showFPS: false, // 显示帧频
+      dpi: 1, // 分辨率
+      renderOptions: {
+        backgroundColor: 0x2a3145 // 画布背景色
+      }
+    };
+
+    function setTitle(title, container) {
+      var title = new Tiny.Text(title, {
+        fontSize: '18px',
+        fill: 'white',
+      });
+
+      title.position.set(Tiny.WIN_SIZE.width / 2, 30);
+      title.anchor.set(0.5, 0);
+      container.addChild(title);
+    }
+
+    var app = new Tiny.Application(config);
+
+    function initGame() {
+      container = new Tiny.Container();
+
+      setTitle('tinyjs - 九宫格', container);
+
+      sprite = new Tiny.NinePatch.Sprite(
+        Tiny.Loader.resources['panel_bg_png'].texture,
+        300,
+        400,
+        [30, 45, 180, 5]
+      );
+      sprite.x = 10;
+      sprite.y = 100;
+      container.addChild(sprite);
+
+      app.run(container);
+    }
+
+
+    Tiny.Loader
+      .add('panel_bg_png', 'assets/panel_bg.png')
+      .load(function () {
+        initGame();
+      });
+    console.log(Tiny.NinePatch);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>tinyjs - 九宫格</title>
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="yes" name="apple-touch-fullscreen" />
+  <meta content="telephone=no,email=no" name="format-detection" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <style>
+    html,
+    body,
+    p,
+    div {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <script src="libs/tiny.debug.js"></script>
+  <script src="../dist/index.debug.js"></script>
+
+  <script type="text/javascript">
+    var config = {
+      showFPS: false, // 显示帧频
+      dpi: 1, // 分辨率
+      renderOptions: {
+        backgroundColor: 0x2a3145 // 画布背景色
+      }
+    };
+
+    function setTitle(title, container) {
+      var title = new Tiny.Text(title, {
+        fontSize: '18px',
+        fill: 'white',
+      });
+
+      title.position.set(Tiny.WIN_SIZE.width / 2, 30);
+      title.anchor.set(0.5, 0);
+      container.addChild(title);
+    }
+
+    var app = new Tiny.Application(config);
+
+    function initGame() {
+      container = new Tiny.Container();
+
+      setTitle('tinyjs - 九宫格', container);
+
+      sprite1 = new Tiny.Sprite(Tiny.Loader.resources['rect'].texture);
+      sprite1.x = 100;
+      sprite1.y = 100;
+      container.addChild(sprite1);
+
+      sprite = new Tiny.NinePatch.Sprite(
+        Tiny.Loader.resources['rect'].texture,
+        100,
+        100,
+        [30, 31, 40, 41]
+      );
+      sprite.x = 100;
+      sprite.y = 300;
+      container.addChild(sprite);
+
+
+      app.run(container);
+
+      var yoyo = false;
+      setInterval(function () {
+        if (sprite.width == 200) {
+          yoyo = true;
+        } else if (sprite.width == 100) {
+          yoyo = false;
+        }
+
+        if (yoyo) {
+          sprite.width--;
+          sprite.height--;
+        } else {
+          sprite.width++;
+          sprite.height++;
+        }
+      }, 1000 / 60);
+    }
+
+
+    Tiny.Loader
+      .add('rect', 'assets/rect.png')
+      .load(function () {
+        initGame();
+      });
+    console.log(Tiny.NinePatch);
+  </script>
+</body>
+
+</html>
