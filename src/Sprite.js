@@ -36,18 +36,22 @@ class Sprite extends Tiny.Sprite {
     */
 
     this.baseTexture = texture;
+
     /**
      * @private
+     * @default 0
      */
     this._loaded = 0;
 
     /**
      * 存储九宫格纹理
+     * @private
      */
     this._textures = [];
+
     /**
-     * @private
      * 存储九宫格sprite对象
+     * @private
      */
     this._gridSprites = [];
 
@@ -59,7 +63,16 @@ class Sprite extends Tiny.Sprite {
       height = this.baseTexture.height;
     }
 
+    /**
+    * 真实宽度
+    * @private
+    */
     this._targetWidth = width;
+
+    /**
+    * 真实高度
+    * @private
+    */
     this._targetHeight = height;
 
     const w1 = scale9Grid[0];
