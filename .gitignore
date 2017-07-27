@@ -5,5 +5,4 @@ node_modules
 npm-debug.log
 coverage
 _local
-dist
 docs
