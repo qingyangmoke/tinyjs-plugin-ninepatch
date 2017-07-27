@@ -149,6 +149,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        | 7 | 8 | 9 |
 	        -------------
 	    */
+
 	    var _this = _possibleConstructorReturn(this, (Sprite.__proto__ || Object.getPrototypeOf(Sprite)).call(this));
 
 	    _this.baseTexture = texture;
@@ -156,6 +157,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @private
 	     */
 	    _this._loaded = 0;
+
+	    /**
+	     * 存储九宫格纹理
+	     */
+	    _this._textures = [];
+	    /**
+	     * @private
+	     * 存储九宫格sprite对象
+	     */
+	    _this._gridSprites = [];
 
 	    if (width === undefined) {
 	      width = _this.baseTexture.width;
@@ -190,16 +201,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 
-	    _this.textures = [];
-	    _this.sprites = [];
 	    var orig = new Tiny.Rectangle(0, 0, _this.baseTexture.width, _this.baseTexture.height);
 	    var trim = null;
 	    for (var i = 0; i < 9; i++) {
 	      var frame = rectFrames[i];
 	      var t = new Tiny.Texture(_this.baseTexture, frame, orig, trim, 0);
-	      _this.textures.push(t);
+	      _this._textures.push(t);
 	      var child = new Tiny.Sprite(t);
-	      _this.sprites.push(child);
+	      _this._gridSprites.push(child);
 	      child.x = frame.x;
 	      child.y = frame.y;
 	      child.width = frame.width;
@@ -244,16 +253,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_update',
 	    value: function _update(width, height) {
-	      // update width if supplied
+	      // 更新宽度 如果需要的话
 	      if (width !== undefined) {
 	        this._targetWidth = width;
 	      }
 
-	      // update height if supplied
+	      // 更新高度 如果需要的话
 	      if (height !== undefined) {
 	        this._targetHeight = height;
 	      }
 
+	      // 容错
 	      if (this._targetWidth < this.baseTexture.width || this._targetHeight < this.baseTexture.height) {
 	        throw Error('九宫格尺寸设置错误，尺寸不能小于素材尺寸');
 	      }
@@ -263,45 +273,43 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var child;
 
 	      // 九宫格位置2 顶部中间 top middle
-	      child = this.children[1];
+	      child = this._gridSprites[1];
 	      child.position.set(this.children[0].width, 0);
 	      child.width = this._targetWidth - child.x - this.children[2].width;
 
 	      // 九宫格位置 3 顶部右上角
-	      child = this.children[2];
+	      child = this._gridSprites[2];
 	      child.position.set(this._targetWidth - child.width, 0);
 
 	      // 九宫格位置4 中间左侧
-	      child = this.children[3];
+	      child = this._gridSprites[3];
 	      child.position.set(0, this.children[0].height);
 	      child.height = this._targetHeight - child.y - this.children[6].height;
 
 	      // 九宫格位置5 正中间
-	      child = this.children[4];
+	      child = this._gridSprites[4];
 	      child.position.set(this.children[1].x, this.children[3].y);
 	      child.height = this.children[3].height;
 	      child.width = this.children[1].width;
 
 	      // 九宫格位置6 中间右侧
-	      child = this.children[5];
+	      child = this._gridSprites[5];
 	      child.position.set(this._targetWidth - child.width, this.children[3].y);
 	      child.height = this.children[3].height;
 
 	      // 九宫格位置7 底部左侧
-	      child = this.children[6];
+	      child = this._gridSprites[6];
 	      child.position.set(0, this._targetHeight - child.height);
 
 	      // 九宫格位置8 底部中间
-	      child = this.children[7];
+	      child = this._gridSprites[7];
 	      child.position.set(this.children[1].x, this._targetHeight - child.height);
 	      child.width = this.children[1].width;
 
 	      // 九宫格位置9 底部右侧
-	      child = this.children[8];
+	      child = this._gridSprites[8];
 	      child.position.set(this._targetWidth - child.width, this._targetHeight - child.height);
 
-	      // this.width = this._targetWidth;
-	      // this.height = this._targetHeight;
 	      // this.dispatch('updated');
 	    }
 	  }, {

@@ -34,11 +34,22 @@ class Sprite extends Tiny.Sprite {
         | 7 | 8 | 9 |
         -------------
     */
+
     this.baseTexture = texture;
     /**
      * @private
      */
     this._loaded = 0;
+
+    /**
+     * 存储九宫格纹理
+     */
+    this._textures = [];
+    /**
+     * @private
+     * 存储九宫格sprite对象
+     */
+    this._gridSprites = [];
 
     if (width === undefined) {
       width = this.baseTexture.width;
@@ -75,8 +86,7 @@ class Sprite extends Tiny.Sprite {
       }
     }
 
-    this.textures = [];
-    this.sprites = [];
+
     var orig = new Tiny.Rectangle(0, 0, this.baseTexture.width, this.baseTexture.height);
     var trim = null;
     for (var i = 0; i < 9; i++) {
@@ -88,9 +98,9 @@ class Sprite extends Tiny.Sprite {
         trim,
         0
       );
-      this.textures.push(t);
+      this._textures.push(t);
       var child = new Tiny.Sprite(t);
-      this.sprites.push(child);
+      this._gridSprites.push(child);
       child.x = frame.x;
       child.y = frame.y;
       child.width = frame.width;
@@ -171,41 +181,41 @@ class Sprite extends Tiny.Sprite {
     var child;
 
     // 九宫格位置2 顶部中间 top middle
-    child = this.children[1];
+    child = this._gridSprites[1];
     child.position.set(this.children[0].width, 0);
     child.width = this._targetWidth - child.x - this.children[2].width;
 
     // 九宫格位置 3 顶部右上角
-    child = this.children[2];
+    child = this._gridSprites[2];
     child.position.set(this._targetWidth - child.width, 0);
 
     // 九宫格位置4 中间左侧
-    child = this.children[3];
+    child = this._gridSprites[3];
     child.position.set(0, this.children[0].height);
     child.height = this._targetHeight - child.y - this.children[6].height;
 
     // 九宫格位置5 正中间
-    child = this.children[4];
+    child = this._gridSprites[4];
     child.position.set(this.children[1].x, this.children[3].y);
     child.height = this.children[3].height;
     child.width = this.children[1].width;
 
     // 九宫格位置6 中间右侧
-    child = this.children[5];
+    child = this._gridSprites[5];
     child.position.set(this._targetWidth - child.width, this.children[3].y);
     child.height = this.children[3].height;
 
     // 九宫格位置7 底部左侧
-    child = this.children[6];
+    child = this._gridSprites[6];
     child.position.set(0, this._targetHeight - child.height);
 
     // 九宫格位置8 底部中间
-    child = this.children[7];
+    child = this._gridSprites[7];
     child.position.set(this.children[1].x, this._targetHeight - child.height);
     child.width = this.children[1].width;
 
     // 九宫格位置9 底部右侧
-    child = this.children[8];
+    child = this._gridSprites[8];
     child.position.set(this._targetWidth - child.width, this._targetHeight - child.height);
 
     // this.dispatch('updated');
