@@ -17,9 +17,9 @@ class Sprite extends Tiny.Sprite {
   /**
   * @constructor
   * @param {Tiny.BaseTexture} texture - 九宫格纹理
-  * @param {Array<Number>} scale9Grid - 九宫格定义
   * @param {number} width - 宽度
   * @param {number} height - 高度
+  * @param {Array<Number>} scale9Grid - 九宫格定义
   */
   constructor(texture, width, height, scale9Grid) {
     super();
@@ -62,36 +62,33 @@ class Sprite extends Tiny.Sprite {
     this._targetWidth = width;
     this._targetHeight = height;
 
+    const w1 = scale9Grid[0];
+    const w2 = scale9Grid[2];
+    const w3 = this.baseTexture.width - w1 - w2;
 
-    var w1 = scale9Grid[0];
-    var w2 = scale9Grid[2];
-    var w3 = this.baseTexture.width - w1 - w2;
+    const h1 = scale9Grid[1];
+    const h2 = scale9Grid[3];
+    const h3 = this.baseTexture.height - h1 - h2;
 
-    var h1 = scale9Grid[1];
-    var h2 = scale9Grid[3];
-    var h3 = this.baseTexture.height - h1 - h2;
+    const wArr = [w1, w2, w3];
+    const xArr = [0, w1, w1 + w2];
 
-
-    var wArr = [w1, w2, w3];
-    var xArr = [0, w1, w1 + w2];
-
-    var hArr = [h1, h2, h3];
-    var yArr = [0, h1, h1 + h2];
+    const hArr = [h1, h2, h3];
+    const yArr = [0, h1, h1 + h2];
 
     const rectFrames = [];
-    for (var row = 0; row < 3; row++) {
-      for (var col = 0; col < 3; col++) {
-        var rect = new Tiny.Rectangle(xArr[col], yArr[row], wArr[col], hArr[row]);
+    for (const row = 0; row < 3; row++) {
+      for (const col = 0; col < 3; col++) {
+        const rect = new Tiny.Rectangle(xArr[col], yArr[row], wArr[col], hArr[row]);
         rectFrames.push(rect);
       }
     }
 
-
-    var orig = new Tiny.Rectangle(0, 0, this.baseTexture.width, this.baseTexture.height);
-    var trim = null;
-    for (var i = 0; i < 9; i++) {
-      var frame = rectFrames[i];
-      var t = new Tiny.Texture(
+    const orig = new Tiny.Rectangle(0, 0, this.baseTexture.width, this.baseTexture.height);
+    const trim = null;
+    for (const i = 0; i < 9; i++) {
+      const frame = rectFrames[i];
+      const t = new Tiny.Texture(
         this.baseTexture,
         frame,
         orig,
@@ -99,7 +96,7 @@ class Sprite extends Tiny.Sprite {
         0
       );
       this._textures.push(t);
-      var child = new Tiny.Sprite(t);
+      const child = new Tiny.Sprite(t);
       this._gridSprites.push(child);
       child.x = frame.x;
       child.y = frame.y;
@@ -178,7 +175,7 @@ class Sprite extends Tiny.Sprite {
 
     if (this._loaded !== 9) return;
 
-    var child;
+    let child;
 
     // 九宫格位置2 顶部中间 top middle
     child = this._gridSprites[1];
