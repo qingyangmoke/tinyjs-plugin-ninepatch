@@ -151,16 +151,17 @@ class Sprite extends Tiny.Sprite {
    * @param {number} [height=null]
    */
   _update(width, height) {
-    // update width if supplied
+    // 更新宽度 如果需要的话
     if (width !== undefined) {
       this._targetWidth = width;
     }
 
-    // update height if supplied
+    // 更新高度 如果需要的话
     if (height !== undefined) {
       this._targetHeight = height;
     }
 
+    // 容错
     if (this._targetWidth < this.baseTexture.width || this._targetHeight < this.baseTexture.height) {
       throw Error('九宫格尺寸设置错误，尺寸不能小于素材尺寸');
     }
@@ -207,8 +208,6 @@ class Sprite extends Tiny.Sprite {
     child = this.children[8];
     child.position.set(this._targetWidth - child.width, this._targetHeight - child.height);
 
-    // this.width = this._targetWidth;
-    // this.height = this._targetHeight;
     // this.dispatch('updated');
   }
 }
