@@ -2,7 +2,7 @@
  * Tiny.Weapon
  * Description:Tinyjs 九宫格
  * Author: 清扬陌客
- * Version: v0.0.1
+ * Version: v0.0.2
  * Github: https://github.com/qingyangmoke/tinyjs-plugin-ninepatch.git
  */
 (function webpackUniversalModuleDefinition(root, factory) {
