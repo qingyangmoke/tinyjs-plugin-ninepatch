@@ -26,6 +26,7 @@
 引用 Tiny.js 源码
 ``` html
 <script src="http://tinyjs.net/libs/tiny.debug.js"></script>
+<script src="https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-ninepatch/0.1.0/index.js"></script>
 ```
 
 ``` js
