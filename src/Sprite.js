@@ -90,8 +90,8 @@ class Sprite extends Tiny.Sprite {
     const yArr = [0, h1, h1 + h2];
 
     const rectFrames = [];
-    for (const row = 0; row < 3; row++) {
-      for (const col = 0; col < 3; col++) {
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
         const rect = new Tiny.Rectangle(xArr[col], yArr[row], wArr[col], hArr[row]);
         rectFrames.push(rect);
       }
@@ -99,7 +99,7 @@ class Sprite extends Tiny.Sprite {
 
     const orig = new Tiny.Rectangle(0, 0, this.baseTexture.width, this.baseTexture.height);
     const trim = null;
-    for (const i = 0; i < 9; i++) {
+    for (let i = 0; i < 9; i++) {
       const frame = rectFrames[i];
       const t = new Tiny.Texture(
         this.baseTexture,

@@ -1,8 +1,8 @@
 /*!
  * Tiny.Weapon
  * Description:Tinyjs 九宫格
- * Author: 清扬陌客
- * Version: v0.0.2
+ * Author: 采东
+ * Version: v0.0.4
  * Github: https://github.com/qingyangmoke/tinyjs-plugin-ninepatch.git
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -123,7 +123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @class Sprite
 	 * @constructor
 	 * @memberof Tiny.NinePatch
-	 * @extends Tiny.Container
+	 * @extends Tiny.Sprite
 	 */
 	var Sprite = function (_Tiny$Sprite) {
 	  _inherits(Sprite, _Tiny$Sprite);
@@ -131,9 +131,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	  * @constructor
 	  * @param {Tiny.BaseTexture} texture - 九宫格纹理
-	  * @param {Array<Number>} scale9Grid - 九宫格定义
 	  * @param {number} width - 宽度
 	  * @param {number} height - 高度
+	  * @param {Array<Number>} scale9Grid - 九宫格定义
 	  */
 	  function Sprite(texture, width, height, scale9Grid) {
 	    _classCallCheck(this, Sprite);
@@ -153,18 +153,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _this = _possibleConstructorReturn(this, (Sprite.__proto__ || Object.getPrototypeOf(Sprite)).call(this));
 
 	    _this.baseTexture = texture;
+
 	    /**
 	     * @private
+	     * @default 0
 	     */
 	    _this._loaded = 0;
 
 	    /**
 	     * 存储九宫格纹理
+	     * @private
 	     */
 	    _this._textures = [];
+
 	    /**
-	     * @private
 	     * 存储九宫格sprite对象
+	     * @private
 	     */
 	    _this._gridSprites = [];
 
@@ -176,7 +180,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      height = _this.baseTexture.height;
 	    }
 
+	    /**
+	    * 真实宽度
+	    * @private
+	    */
 	    _this._targetWidth = width;
+
+	    /**
+	    * 真实高度
+	    * @private
+	    */
 	    _this._targetHeight = height;
 
 	    var w1 = scale9Grid[0];
@@ -270,7 +283,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      if (this._loaded !== 9) return;
 
-	      var child;
+	      var child = void 0;
 
 	      // 九宫格位置2 顶部中间 top middle
 	      child = this._gridSprites[1];
