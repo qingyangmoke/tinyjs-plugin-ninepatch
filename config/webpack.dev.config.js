@@ -7,7 +7,7 @@ const banner = `Tiny.Weapon
 Description:Tinyjs 九宫格
 Author: ${pkg.author}
 Version: v${pkg.version}
-Github: ${pkg.repository.url}`
+Github: https://github.com/qingyangmoke/tinyjs-plugin-ninepatch.git`
 ;
 
 const config = {
