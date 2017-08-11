@@ -1,7 +1,7 @@
 {
   "name": "tinyjs-plugin-ninepatch",
-  "version": "0.0.2",
-  "author": "清扬陌客",
+  "version": "0.0.3",
+  "author": "采东",
   "description": "Tinyjs 九宫格图",
   "keywords": [
     "tinyjs",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/qingyangmoke/tinyjs-plugin-ninepatch.git"
+    "url": "git@gitlab.alipay-inc.com:tiny-plugins/tinyjs-plugin-ninepatch.git"
   },
   "main": "dist/index.js",
   "files": [
