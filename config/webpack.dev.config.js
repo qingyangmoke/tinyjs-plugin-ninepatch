@@ -3,7 +3,7 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const pkg = require('../package.json');
 
-const banner = `Tiny.Weapon
+const banner = `tinyjs-plugin-ninepatch
 Description:Tinyjs 九宫格
 Author: ${pkg.author}
 Version: v${pkg.version}
