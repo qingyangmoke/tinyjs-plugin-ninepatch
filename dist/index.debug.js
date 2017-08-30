@@ -1,8 +1,8 @@
 /*!
- * Tiny.Weapon
+ * tinyjs-plugin-ninepatch
  * Description:Tinyjs 九宫格
- * Author: 采东
- * Version: v0.0.4
+ * Author: 清扬陌客
+ * Version: v0.1.1
  * Github: https://github.com/qingyangmoke/tinyjs-plugin-ninepatch.git
  */
 (function webpackUniversalModuleDefinition(root, factory) {
