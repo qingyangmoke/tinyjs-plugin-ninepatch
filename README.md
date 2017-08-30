@@ -15,8 +15,8 @@
 
 - 也可以直接引用线上cdn地址，注意要使用最新的版本号，例如：
 
- - https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-ninepatch/0.1.0/index.debug.js
- - https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-ninepatch/0.1.0/index.js
+ - https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-ninepatch/0.1.1/index.debug.js
+ - https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-ninepatch/0.1.1/index.js
 
 ## 起步
 首先当然是要引入，推荐`NPM`方式，当然你也可以下载独立版本，先从几个例子入手吧！
@@ -26,7 +26,7 @@
 引用 Tiny.js 源码
 ``` html
 <script src="http://tinyjs.net/libs/tiny.debug.js"></script>
-<script src="https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-ninepatch/0.1.0/index.js"></script>
+<script src="https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-ninepatch/0.1.1/index.js"></script>
 ```
 
 ``` js
