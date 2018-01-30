@@ -25,7 +25,7 @@ class Sprite extends Tiny.Sprite {
     super();
     /*
         九宫格的概念 参考了白鹭的文档 http://developer.egret.com/cn/2d/bitmapTexture/scale9Grid
-        九宫格位置  scale9Grid=[30,31,50,41] 则表示的含义为 [30：区域1 的宽度值， 31：区域1 的高度值， 40：区域2 的宽度值 ，41：区域4 的高度值]
+        九宫格位置  scale9Grid=[30,31,50,41] 则表示的含义为 [30：区域1 的宽度值， 31：区域1 的高度值， 50：区域2 的宽度值 ，41：区域4 的高度值]
         ------------—
         | 1 | 2 | 3 |
         -------------
@@ -34,14 +34,9 @@ class Sprite extends Tiny.Sprite {
         | 7 | 8 | 9 |
         -------------
     */
+    this._gridTexture = texture;
 
-    this.baseTexture = texture;
-
-    /**
-     * @private
-     * @default 0
-     */
-    this._loaded = 0;
+    this._debugDraw = false;
 
     /**
      * 存储九宫格纹理
@@ -55,84 +50,111 @@ class Sprite extends Tiny.Sprite {
      */
     this._gridSprites = [];
 
-    if (width === undefined) {
-      width = this.baseTexture.width;
-    }
-
-    if (height === undefined) {
-      height = this.baseTexture.height;
-    }
-
     /**
     * 真实宽度
     * @private
     */
-    this._targetWidth = width;
+    this._targetWidth = width || 0;
 
     /**
     * 真实高度
     * @private
     */
-    this._targetHeight = height;
+    this._targetHeight = height || 0;
 
-    const w1 = scale9Grid[0];
-    const w2 = scale9Grid[2];
-    const w3 = this.baseTexture.width - w1 - w2;
+    /**
+     * 素材的原始尺寸
+     * @private
+     */
+    this._textureOrigFrame = new Tiny.Rectangle(0, 0, this._gridTexture.width, this._gridTexture.height);
 
-    const h1 = scale9Grid[1];
-    const h2 = scale9Grid[3];
-    const h3 = this.baseTexture.height - h1 - h2;
+    /**
+     * 九宫格设置
+     * @private
+     */
+    this._scale9Grid = null;
 
-    const wArr = [w1, w2, w3];
-    const xArr = [0, w1, w1 + w2];
+    this._inited = false;
 
-    const hArr = [h1, h2, h3];
-    const yArr = [0, h1, h1 + h2];
+    this._init();
 
-    const rectFrames = [];
-    for (let row = 0; row < 3; row++) {
-      for (let col = 0; col < 3; col++) {
-        const rect = new Tiny.Rectangle(xArr[col], yArr[row], wArr[col], hArr[row]);
-        rectFrames.push(rect);
-      }
+    // this._update();
+
+    this.scale9Grid = scale9Grid;
+
+    if (this._gridTexture.baseTexture.hasLoaded) {
+      this._onGridTextureUpdate();
+    } else {
+      this._gridTexture.once('update', this._onGridTextureUpdate, this);
     }
+  }
 
-    const orig = new Tiny.Rectangle(0, 0, this.baseTexture.width, this.baseTexture.height);
-    const trim = null;
+  _onGridTextureUpdate() {
+    this._update();
+  }
+
+  _init() {
+    if (this._inited) return;
+    this._inited = true;
     for (let i = 0; i < 9; i++) {
-      const frame = rectFrames[i];
       const t = new Tiny.Texture(
-        this.baseTexture,
-        frame,
-        orig,
-        trim,
+        this._gridTexture,
+        new Tiny.Rectangle(0, 0, this._gridTexture.width, this._gridTexture.height),
+        new Tiny.Rectangle(0, 0, this._gridTexture.width, this._gridTexture.height),
+        null,
         0
       );
       this._textures.push(t);
       const child = new Tiny.Sprite(t);
+      child.visible = false;
       this._gridSprites.push(child);
-      child.x = frame.x;
-      child.y = frame.y;
-      child.width = frame.width;
-      child.height = frame.height;
       this.addChild(child);
-      this._loaded++;
     }
+  }
 
+  /**
+  * @name Tiny.NinePatch.Sprite#debug
+  * @property {boolean} debug - 是否开启调试模式 默认false
+  */
+  get debug() {
+    return this._debugDraw;
+  }
+  set debug(value) {
+    this._debugDraw = value;
     this._update();
   }
+  /**
+  * @name Tiny.NinePatch.Sprite#scale9Grid
+  * @property {string | Array} scale9Grid - 九宫格数据 "30,10,10,5" 或者 [30,10,10,5]
+  */
+  get scale9Grid() {
+    return this._scale9Grid;
+  }
+  set scale9Grid(value) {
+    if (value) {
+      let newGrid = typeof value === 'string' ? value.split(',') : value;
+      if (newGrid.length !== 4) {
+        console.error('error scale9Grid format', value);
+        return;
+      }
+      newGrid = newGrid.map((e) => parseFloat(e));
+      this._scale9Grid = newGrid;
+    } else {
+      this._scale9Grid = [0, 0, 0, 0];
+    }
+    this._update();
+  }
+
+
 
   /**
   * @name Tiny.NinePatch.Sprite#width
   * @property {number} width - 宽度
   */
   get width() {
-    return this._targetWidth;
+    return this._targetWidth || this._gridTexture.width;
   }
   set width(value) {
-    if (this._targetWidth < this.baseTexture.width) {
-      throw Error('九宫格尺寸设置错误，尺寸不能小于素材尺寸');
-    }
     this._targetWidth = value;
     this._update();
   }
@@ -142,12 +164,9 @@ class Sprite extends Tiny.Sprite {
   * @property {number} height - 高度
   */
   get height() {
-    return this._targetHeight;
+    return this._targetHeight || this._gridTexture.height;
   }
   set height(value) {
-    if (this._targetHeight < this.baseTexture.height) {
-      throw Error('九宫格尺寸设置错误，尺寸不能小于素材尺寸');
-    }
     this._targetHeight = value;
     this._update();
   }
@@ -160,6 +179,8 @@ class Sprite extends Tiny.Sprite {
   * @param {number} height 高度
   */
   resize(width, height) {
+    this._targetWidth = width;
+    this._targetHeight = height;
     this._update(width, height);
   }
 
@@ -170,65 +191,56 @@ class Sprite extends Tiny.Sprite {
    * @param {number} [width=null]
    * @param {number} [height=null]
    */
-  _update(width, height) {
-    // 更新宽度 如果需要的话
-    if (width !== undefined) {
-      this._targetWidth = width;
-    }
-
-    // 更新高度 如果需要的话
-    if (height !== undefined) {
-      this._targetHeight = height;
-    }
-
+  _update() {
+    if (!this._gridTexture) return;
     // 容错
-    if (this._targetWidth < this.baseTexture.width || this._targetHeight < this.baseTexture.height) {
-      throw Error('九宫格尺寸设置错误，尺寸不能小于素材尺寸');
+    if (this.width < this._gridTexture.width || this.height < this._gridTexture.height) {
+      console.warn('九宫格尺寸设置异常，尺寸不能小于素材尺寸');
     }
 
-    if (this._loaded !== 9) return;
+    const scale9Grid = this._scale9Grid;
+    const w1 = scale9Grid[0];
+    const w2 = Math.max(0, scale9Grid[2]);
+    const w3 = Math.max(0, this._gridTexture.width - w1 - w2);
 
-    let child;
+    const h1 = scale9Grid[1];
+    const h2 = Math.max(0, scale9Grid[3]);
+    const h3 = Math.max(0, this._gridTexture.height - h1 - h2);
 
-    // 九宫格位置2 顶部中间 top middle
-    child = this._gridSprites[1];
-    child.position.set(this.children[0].width, 0);
-    child.width = this._targetWidth - child.x - this.children[2].width;
+    const wArr = [w1, w2, w3];
+    const xArr = [0, w1, w1 + w2];
 
-    // 九宫格位置 3 顶部右上角
-    child = this._gridSprites[2];
-    child.position.set(this._targetWidth - child.width, 0);
+    const hArr = [h1, h2, h3];
+    const yArr = [0, h1, h1 + h2];
 
-    // 九宫格位置4 中间左侧
-    child = this._gridSprites[3];
-    child.position.set(0, this.children[0].height);
-    child.height = this._targetHeight - child.y - this.children[6].height;
-
-    // 九宫格位置5 正中间
-    child = this._gridSprites[4];
-    child.position.set(this.children[1].x, this.children[3].y);
-    child.height = this.children[3].height;
-    child.width = this.children[1].width;
-
-    // 九宫格位置6 中间右侧
-    child = this._gridSprites[5];
-    child.position.set(this._targetWidth - child.width, this.children[3].y);
-    child.height = this.children[3].height;
-
-    // 九宫格位置7 底部左侧
-    child = this._gridSprites[6];
-    child.position.set(0, this._targetHeight - child.height);
-
-    // 九宫格位置8 底部中间
-    child = this._gridSprites[7];
-    child.position.set(this.children[1].x, this._targetHeight - child.height);
-    child.width = this.children[1].width;
-
-    // 九宫格位置9 底部右侧
-    child = this._gridSprites[8];
-    child.position.set(this._targetWidth - child.width, this._targetHeight - child.height);
-
-    // this.dispatch('updated');
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        const i = row * 3 + col;
+        const child = this._gridSprites[i];
+        const frame = new Tiny.Rectangle(xArr[col], yArr[row], wArr[col], hArr[row]);
+        if (frame.width > 0 && frame.height > 0) {
+          const w = (col === 0 || col === 2) ? wArr[col] : Math.max(0, this.width - wArr[0] - wArr[2]);
+          const h = (row === 0 || row === 2) ? hArr[row] : Math.max(0, this.height - hArr[0] - hArr[2]);
+          const x = col === 0 ? 0 : col === 1 ? wArr[0] : Math.max(0, this.width - wArr[2]);
+          const y = row === 0 ? 0 : row === 1 ? hArr[0] : Math.max(0, this.height - hArr[2]);
+          if (w > 0 && h > 0) {
+            this._textures[i].frame = frame;
+            child.anchor.set(0, 0);
+            child.x = x;
+            child.y = y;
+            child.alpha = this._debugDraw ? (0.1 + i * 0.05) : 1;
+            child.width = w;
+            child.height = h;
+            child.visible = true;
+          } else {
+            child.visible = false;
+          }
+        } else {
+          child.visible = false;
+        }
+      }
+    }
+    this.emit('resize');
   }
 }
 

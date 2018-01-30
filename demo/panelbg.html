@@ -30,7 +30,7 @@
       height: 568,
       fixSize: true,
       renderOptions: {
-        backgroundColor: 0x2a3145 // 画布背景色
+        backgroundColor: 0x2a3145 // 0xffffff // 画布背景色
       }
     };
 
@@ -63,8 +63,10 @@
       container.addChild(sprite);
 
       app.run(container);
-    }
 
+      app.onUpdate(function(){
+      })
+    }
 
     Tiny.Loader
       .add('panel_bg_png', 'assets/panel_bg.png')
