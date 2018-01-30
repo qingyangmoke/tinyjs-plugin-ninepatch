@@ -145,8 +145,6 @@ class Sprite extends Tiny.Sprite {
     this._update();
   }
 
-
-
   /**
   * @name Tiny.NinePatch.Sprite#width
   * @property {number} width - 宽度
