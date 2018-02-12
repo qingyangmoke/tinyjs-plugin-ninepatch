@@ -1,6 +1,8 @@
 /**
  * 九宫格的概念 参考了白鹭的文档 http://developer.egret.com/cn/2d/bitmapTexture/scale9Grid
  * 九宫格位置  scale9Grid=[30,31,50,41] 则表示的含义为 [30：区域1 的宽度值， 31：区域1 的高度值， 40：区域2 的宽度值 ，41：区域4 的高度值]
+ *
+ * TODO： 设计成 => 区域1的宽度 区域1的高度 区域3的宽度 区域7的高度 是不是更合理一些呢？
  *     ------------—
  *      | 1 | 2 | 3 |
  *      -------------
@@ -23,17 +25,6 @@ class Sprite extends Tiny.Sprite {
   */
   constructor(texture, width, height, scale9Grid) {
     super();
-    /*
-        九宫格的概念 参考了白鹭的文档 http://developer.egret.com/cn/2d/bitmapTexture/scale9Grid
-        九宫格位置  scale9Grid=[30,31,50,41] 则表示的含义为 [30：区域1 的宽度值， 31：区域1 的高度值， 50：区域2 的宽度值 ，41：区域4 的高度值]
-        ------------—
-        | 1 | 2 | 3 |
-        -------------
-        | 4 | 5 | 6 |
-        -------------
-        | 7 | 8 | 9 |
-        -------------
-    */
     this._gridTexture = texture;
 
     this._debugDraw = false;

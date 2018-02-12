@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>tinyjs - 九宫格</title>
+  <title>tinyjs - 九宫格图片</title>
   <meta content="yes" name="apple-mobile-web-app-capable" />
   <meta content="yes" name="apple-touch-fullscreen" />
   <meta content="telephone=no,email=no" name="format-detection" />
@@ -50,13 +50,13 @@
     function initGame() {
       container = new Tiny.Container();
 
-      setTitle('tinyjs - 九宫格', container);
+      setTitle('tinyjs - 九宫格图片', container);
 
       sprite = new Tiny.NinePatch.Sprite(
         Tiny.Loader.resources['panel_bg_png'].texture,
         300,
         400,
-        [30, 45, 180, 5]
+        [69, 49, 8, 5]
       );
       sprite.x = 10;
       sprite.y = 100;
@@ -64,12 +64,26 @@
 
       app.run(container);
 
-      app.onUpdate(function(){
+      var yoyo = false;
+      app.onUpdate(function () {
+        if (sprite.width == 310) {
+          yoyo = true;
+        } else if (sprite.width == 130) {
+          yoyo = false;
+        }
+
+        if (yoyo) {
+          sprite.width--;
+          sprite.height--;
+        } else {
+          sprite.width++;
+          sprite.height++;
+        }
       })
     }
 
     Tiny.Loader
-      .add('panel_bg_png', 'assets/panel_bg.png')
+      .add('panel_bg_png', 'assets/panel_bg2.png')
       .load(function () {
         initGame();
       });
