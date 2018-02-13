@@ -4,7 +4,7 @@
 
 ## 查看demo
 
-http://tinyjs.net/#/plugins/tinyjs-plugin-ninepatch/demo
+https://qingyangmoke.github.io/tinyjs-plugin-ninepatch/demo/
 
 ## 引用方法
 
@@ -35,6 +35,25 @@ var sprite = new Tiny.NinePatch.Sprite(
         [30, 31, 40, 41]
       );
 ```
+
+## 九宫格概念
+```
+  九宫格定义：  scale9Grid=[30,31,50,41]
+
+  表示的含义为 [30：区域1 的宽度值，
+              31：区域1 的高度值，
+              40：区域2 的宽度值 ，
+              41：区域4 的高度值]
+       ------------—
+       | 1 | 2 | 3 |
+       -------------
+       | 4 | 5 | 6 |
+       -------------
+       | 7 | 8 | 9 |
+       -------------
+ ```
+
+
 ## 依赖
 - `Tiny.js`: [Link](http://tinyjs.net/#/docs/api)
 
