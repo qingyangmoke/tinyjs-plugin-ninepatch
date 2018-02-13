@@ -53,6 +53,9 @@ var sprite = new Tiny.NinePatch.Sprite(
        -------------
  ```
 
+## 注意事项
+
+1. **sprite的宽高不要小于九宫格图片的尺寸**
 
 ## 依赖
 - `Tiny.js`: [Link](http://tinyjs.net/#/docs/api)

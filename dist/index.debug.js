@@ -2,7 +2,7 @@
  * tinyjs-plugin-ninepatch
  * Description:Tinyjs 九宫格
  * Author: 清扬陌客
- * Version: v0.2.1
+ * Version: v0.2.2
  * Github: https://github.com/qingyangmoke/tinyjs-plugin-ninepatch.git
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -257,6 +257,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        console.warn('九宫格尺寸设置异常，尺寸不能小于素材尺寸');
 	      }
 
+	      var realWidth = Math.max(this.width, this._gridTexture.width);
+	      var realHeight = Math.max(this.height, this._gridTexture.height);
+
 	      var scale9Grid = this._scale9Grid;
 	      var w1 = scale9Grid[0];
 	      var w2 = Math.max(0, scale9Grid[2]);
@@ -278,10 +281,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var child = this._gridSprites[i];
 	          var frame = new Tiny.Rectangle(xArr[col], yArr[row], wArr[col], hArr[row]);
 	          if (frame.width > 0 && frame.height > 0) {
-	            var w = col === 0 || col === 2 ? wArr[col] : Math.max(0, this.width - wArr[0] - wArr[2]);
-	            var h = row === 0 || row === 2 ? hArr[row] : Math.max(0, this.height - hArr[0] - hArr[2]);
-	            var x = col === 0 ? 0 : col === 1 ? wArr[0] : Math.max(0, this.width - wArr[2]);
-	            var y = row === 0 ? 0 : row === 1 ? hArr[0] : Math.max(0, this.height - hArr[2]);
+	            var w = col === 0 || col === 2 ? wArr[col] : Math.max(0, realWidth - wArr[0] - wArr[2]);
+	            var h = row === 0 || row === 2 ? hArr[row] : Math.max(0, realHeight - hArr[0] - hArr[2]);
+	            var x = col === 0 ? 0 : col === 1 ? wArr[0] : Math.max(0, realWidth - wArr[2]);
+	            var y = row === 0 ? 0 : row === 1 ? hArr[0] : Math.max(0, realHeight - hArr[2]);
 	            if (w > 0 && h > 0) {
 	              this._textures[i].frame = frame;
 	              child.anchor.set(0, 0);

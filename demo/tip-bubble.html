@@ -50,13 +50,13 @@
     function initGame() {
       container = new Tiny.Container();
 
-      setTitle('tinyjs - 九宫格图片', container);
+      setTitle('tinyjs - 九宫格 - 提示气泡', container);
 
       sprite = new Tiny.NinePatch.Sprite(
-        Tiny.Loader.resources['panel_bg_png'].texture,
-        300,
-        400,
-        [69, 49, 8, 5]
+        Tiny.Loader.resources['tip_bubble_png'].texture,
+        00,
+        200,
+        [95, 35, 2, 5]
       );
       sprite.x = 10;
       sprite.y = 100;
@@ -68,7 +68,7 @@
       app.onUpdate(function () {
         if (sprite.width == 300) {
           yoyo = true;
-        } else if (sprite.width == 130) {
+        } else if (sprite.width == 200) {
           yoyo = false;
         }
 
@@ -83,7 +83,7 @@
     }
 
     Tiny.Loader
-      .add('panel_bg_png', 'assets/panel_bg2.png')
+      .add('tip_bubble_png', 'assets/tip-bubble.png')
       .load(function () {
         initGame();
       });
