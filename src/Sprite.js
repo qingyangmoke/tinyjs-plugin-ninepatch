@@ -224,7 +224,6 @@ class Sprite extends Tiny.Sprite {
     const yArr = [0, h1, h1 + h2];
 
     const overlapPadding = this.overlapPadding;
-    console.log('overlapPadding:', overlapPadding);
     for (let row = 0; row < 3; row++) {
       for (let col = 0; col < 3; col++) {
         const i = row * 3 + col;
