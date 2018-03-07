@@ -389,7 +389,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return this._overlapPadding;
 	    },
 	    set: function set(value) {
-	      this._overlapPadding = value || 0;
+	      this._overlapPadding = +value || 0;
 	      this._update();
 	    }
 	  }]);

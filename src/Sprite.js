@@ -174,7 +174,7 @@ class Sprite extends Tiny.Sprite {
     return this._overlapPadding;
   }
   set overlapPadding(value) {
-    this._overlapPadding = value || 0;
+    this._overlapPadding = +value || 0;
     this._update();
   }
 
