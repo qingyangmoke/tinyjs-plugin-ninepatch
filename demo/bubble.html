@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>tinyjs - 九宫格图片</title>
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="yes" name="apple-touch-fullscreen" />
+  <meta content="telephone=no,email=no" name="format-detection" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <script src="https://gw.alipayobjects.com/as/g/tiny/tiny/1.1.5/tiny.js"></script>
+  <script src="../dist/index.debug.js"></script>
+  <style>
+    html,
+    body,
+    p,
+    div {
+      margin: 0;
+      padding: 0;
+      background-color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var config = {
+      showFPS: false, // 显示帧频
+      dpi: 2, // 分辨率
+      width: 320,
+      height: 568,
+      renderType: Tiny.RENDERER_TYPE.CANVAS,
+      renderOptions: {
+        transparent: false,
+        autoResize: false,
+        backgroundColor: 0xb7eaff
+      },
+    };
+
+    function setTitle(title, container) {
+      var title = new Tiny.Text(title, {
+        fontSize: '18px',
+        fill: 'white',
+      });
+
+      title.position.set(Tiny.WIN_SIZE.width / 2, 30);
+      title.anchor.set(0.5, 0);
+      container.addChild(title);
+    }
+
+    var app = new Tiny.Application(config);
+
+    function initGame() {
+      container = new Tiny.Container();
+
+      setTitle('tinyjs - 九宫格 - 提示气泡', container);
+
+      sprite_container = new Tiny.Container();
+
+
+      sprite = new Tiny.NinePatch.Sprite(
+        Tiny.Loader.resources['tip_bubble_png'].texture,
+        300,
+        100,
+        [96, 36, 12, 2],
+        1
+      );
+      sprite_container.x = 10;
+      sprite_container.y = 200;
+      sprite_container.pivot.y = sprite.height;
+      sprite_container.addChild(sprite);
+
+      container.addChild(sprite_container);
+
+      app.run(container);
+
+      var yoyo = true;
+      var scale = 1;
+      app.onUpdate(function () {
+        if (scale === 1) {
+          yoyo = true;
+        } else if (scale <= 0) {
+          yoyo = false;
+        }
+
+        if (yoyo) {
+          scale -= 0.02;
+        } else {
+          scale += 0.02;
+        }
+
+        sprite_container.scale.set(scale, scale);
+      })
+    }
+
+    Tiny.Loader
+      .add('tip_bubble_png', 'assets/bubble.png')
+      .load(function () {
+        initGame();
+      });
+    console.log(Tiny.NinePatch);
+  </script>
+</body>
+
+</html>

@@ -2,7 +2,7 @@
  * tinyjs-plugin-ninepatch
  * Description:Tinyjs 九宫格
  * Author: 清扬陌客
- * Version: v0.2.2
+ * Version: v0.2.3
  * Github: https://github.com/qingyangmoke/tinyjs-plugin-ninepatch.git
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -136,8 +136,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @param {number} width - 宽度
 	  * @param {number} height - 高度
 	  * @param {Array<Number>} scale9Grid - 九宫格定义
+	  * @param {Array<Number>} overlapPadding - canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
 	  */
-	  function Sprite(texture, width, height, scale9Grid) {
+	  function Sprite(texture, width, height, scale9Grid, overlapPadding) {
 	    _classCallCheck(this, Sprite);
 
 	    var _this = _possibleConstructorReturn(this, (Sprite.__proto__ || Object.getPrototypeOf(Sprite)).call(this));
@@ -181,6 +182,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @private
 	     */
 	    _this._scale9Grid = null;
+
+	    /**
+	    * canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
+	    */
+	    _this._overlapPadding = overlapPadding || 0;
 
 	    _this._inited = false;
 
@@ -275,6 +281,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var hArr = [h1, h2, h3];
 	      var yArr = [0, h1, h1 + h2];
 
+	      var overlapPadding = this.overlapPadding;
+	      console.log('overlapPadding:', overlapPadding);
 	      for (var row = 0; row < 3; row++) {
 	        for (var col = 0; col < 3; col++) {
 	          var i = row * 3 + col;
@@ -288,8 +296,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (w > 0 && h > 0) {
 	              this._textures[i].frame = frame;
 	              child.anchor.set(0, 0);
-	              child.x = x;
-	              child.y = y;
+	              child.x = x - col * overlapPadding;
+	              child.y = y - row * overlapPadding;
 	              child.alpha = this._debugDraw ? 0.1 + i * 0.05 : 1;
 	              child.width = w;
 	              child.height = h;
@@ -367,6 +375,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    set: function set(value) {
 	      this._targetHeight = value;
+	      this._update();
+	    }
+
+	    /**
+	    * @name Tiny.NinePatch.Sprite#overlapPadding
+	    * @property {number} overlapPadding - 九宫格之间的重合度 canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
+	    */
+
+	  }, {
+	    key: 'overlapPadding',
+	    get: function get() {
+	      return this._overlapPadding;
+	    },
+	    set: function set(value) {
+	      this._overlapPadding = value || 0;
 	      this._update();
 	    }
 	  }]);

@@ -22,8 +22,9 @@ class Sprite extends Tiny.Sprite {
   * @param {number} width - 宽度
   * @param {number} height - 高度
   * @param {Array<Number>} scale9Grid - 九宫格定义
+  * @param {Array<Number>} overlapPadding - canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
   */
-  constructor(texture, width, height, scale9Grid) {
+  constructor(texture, width, height, scale9Grid, overlapPadding) {
     super();
     this._gridTexture = texture;
 
@@ -64,6 +65,11 @@ class Sprite extends Tiny.Sprite {
      * @private
      */
     this._scale9Grid = null;
+
+    /**
+    * canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
+    */
+    this._overlapPadding = overlapPadding || 0;
 
     this._inited = false;
 
@@ -161,6 +167,18 @@ class Sprite extends Tiny.Sprite {
   }
 
   /**
+  * @name Tiny.NinePatch.Sprite#overlapPadding
+  * @property {number} overlapPadding - 九宫格之间的重合度 canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
+  */
+  get overlapPadding() {
+    return this._overlapPadding;
+  }
+  set overlapPadding(value) {
+    this._overlapPadding = value || 0;
+    this._update();
+  }
+
+  /**
   * 改变尺寸
   * @private
   * @method Tiny.NinePatch.Sprite#resize
@@ -205,6 +223,8 @@ class Sprite extends Tiny.Sprite {
     const hArr = [h1, h2, h3];
     const yArr = [0, h1, h1 + h2];
 
+    const overlapPadding = this.overlapPadding;
+    console.log('overlapPadding:', overlapPadding);
     for (let row = 0; row < 3; row++) {
       for (let col = 0; col < 3; col++) {
         const i = row * 3 + col;
@@ -218,8 +238,8 @@ class Sprite extends Tiny.Sprite {
           if (w > 0 && h > 0) {
             this._textures[i].frame = frame;
             child.anchor.set(0, 0);
-            child.x = x;
-            child.y = y;
+            child.x = x - col * overlapPadding;
+            child.y = y - row * overlapPadding;
             child.alpha = this._debugDraw ? (0.1 + i * 0.05) : 1;
             child.width = w;
             child.height = h;
