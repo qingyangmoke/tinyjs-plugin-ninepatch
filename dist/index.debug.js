@@ -282,7 +282,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var yArr = [0, h1, h1 + h2];
 
 	      var overlapPadding = this.overlapPadding;
-	      console.log('overlapPadding:', overlapPadding);
 	      for (var row = 0; row < 3; row++) {
 	        for (var col = 0; col < 3; col++) {
 	          var i = row * 3 + col;
