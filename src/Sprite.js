@@ -22,9 +22,9 @@ class Sprite extends Tiny.Sprite {
   * @param {number} width - 宽度
   * @param {number} height - 高度
   * @param {Array<Number>} scale9Grid - 九宫格定义
-  * @param {Array<Number>} overlapPadding - canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
+  * @param {Array<Number>} overlapPadding - canvas渲染的时候 可能会有缝隙 用这个来修复 默认是1
   */
-  constructor(texture, width, height, scale9Grid, overlapPadding) {
+  constructor(texture, width, height, scale9Grid, overlapPadding = 1) {
     super();
     this._gridTexture = texture;
 
@@ -69,13 +69,9 @@ class Sprite extends Tiny.Sprite {
     /**
     * canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
     */
-    this._overlapPadding = overlapPadding || 0;
+    this._overlapPadding = overlapPadding || 1;
 
     this._inited = false;
-
-    this._init();
-
-    // this._update();
 
     this.scale9Grid = scale9Grid;
 
@@ -87,6 +83,7 @@ class Sprite extends Tiny.Sprite {
   }
 
   _onGridTextureUpdate() {
+    this._init();
     this._update();
   }
 
@@ -200,6 +197,9 @@ class Sprite extends Tiny.Sprite {
    */
   _update() {
     if (!this._gridTexture) return;
+    if (!this._gridTexture.baseTexture.hasLoaded) return;
+    if (!this._inited) return;
+
     // 容错
     if (this.width < this._gridTexture.width || this.height < this._gridTexture.height) {
       console.warn('九宫格尺寸设置异常，尺寸不能小于素材尺寸');

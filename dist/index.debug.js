@@ -2,7 +2,7 @@
  * tinyjs-plugin-ninepatch
  * Description:Tinyjs 九宫格
  * Author: 清扬陌客
- * Version: v0.2.3
+ * Version: v0.2.4
  * Github: https://github.com/qingyangmoke/tinyjs-plugin-ninepatch.git
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -136,9 +136,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @param {number} width - 宽度
 	  * @param {number} height - 高度
 	  * @param {Array<Number>} scale9Grid - 九宫格定义
-	  * @param {Array<Number>} overlapPadding - canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
+	  * @param {Array<Number>} overlapPadding - canvas渲染的时候 可能会有缝隙 用这个来修复 默认是1
 	  */
-	  function Sprite(texture, width, height, scale9Grid, overlapPadding) {
+	  function Sprite(texture, width, height, scale9Grid) {
+	    var overlapPadding = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
+
 	    _classCallCheck(this, Sprite);
 
 	    var _this = _possibleConstructorReturn(this, (Sprite.__proto__ || Object.getPrototypeOf(Sprite)).call(this));
@@ -186,13 +188,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	    * canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
 	    */
-	    _this._overlapPadding = overlapPadding || 0;
+	    _this._overlapPadding = overlapPadding || 1;
 
 	    _this._inited = false;
-
-	    _this._init();
-
-	    // this._update();
 
 	    _this.scale9Grid = scale9Grid;
 
@@ -207,6 +205,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Sprite, [{
 	    key: '_onGridTextureUpdate',
 	    value: function _onGridTextureUpdate() {
+	      this._init();
 	      this._update();
 	    }
 	  }, {
@@ -258,6 +257,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: '_update',
 	    value: function _update() {
 	      if (!this._gridTexture) return;
+	      if (!this._gridTexture.baseTexture.hasLoaded) return;
+	      if (!this._inited) return;
+
 	      // 容错
 	      if (this.width < this._gridTexture.width || this.height < this._gridTexture.height) {
 	        console.warn('九宫格尺寸设置异常，尺寸不能小于素材尺寸');
