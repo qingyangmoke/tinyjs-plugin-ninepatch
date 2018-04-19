@@ -56,6 +56,7 @@ var sprite = new Tiny.NinePatch.Sprite(
 ## 注意事项
 
 1. **sprite的宽高不要小于九宫格图片的尺寸**
+2. **如果图片是半透明的 请把padding设置成0 否则重合部分有黑线**
 
 ## 依赖
 - `Tiny.js`: [Link](http://tinyjs.net/#/docs/api)
