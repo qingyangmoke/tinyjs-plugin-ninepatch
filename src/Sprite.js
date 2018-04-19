@@ -22,9 +22,9 @@ class Sprite extends Tiny.Sprite {
   * @param {number} width - 宽度
   * @param {number} height - 高度
   * @param {Array<Number>} scale9Grid - 九宫格定义
-  * @param {Array<Number>} overlapPadding - canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
+  * @param {Array<Number>} overlapPadding - canvas渲染的时候 可能会有缝隙 用这个来修复 默认是1
   */
-  constructor(texture, width, height, scale9Grid, overlapPadding) {
+  constructor(texture, width, height, scale9Grid, overlapPadding = 1) {
     super();
     this._gridTexture = texture;
 
@@ -69,7 +69,7 @@ class Sprite extends Tiny.Sprite {
     /**
     * canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
     */
-    this._overlapPadding = overlapPadding || 0;
+    this._overlapPadding = overlapPadding;
 
     this._inited = false;
 
