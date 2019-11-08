@@ -2,7 +2,7 @@
  * tinyjs-plugin-ninepatch
  * Description:Tinyjs 九宫格
  * Author: 清扬陌客
- * Version: v0.2.3
+ * Version: v0.2.4
  * Github: https://github.com/qingyangmoke/tinyjs-plugin-ninepatch.git
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -51,7 +51,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/Users/icefox/Documents/github/tinyjs-plugin-ninepatch/dist";
+/******/ 	__webpack_require__.p = "/Users/song/Computer/Develop/github/tinyjs-plugin-ninepatch/dist";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
