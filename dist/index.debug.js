@@ -51,7 +51,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/Users/song/Develop/github/tinyjs-plugin-ninepatch/dist";
+/******/ 	__webpack_require__.p = "/Users/icefox/Documents/github/tinyjs-plugin-ninepatch/dist";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -136,9 +136,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @param {number} width - 宽度
 	  * @param {number} height - 高度
 	  * @param {Array<Number>} scale9Grid - 九宫格定义
-	  * @param {Array<Number>} overlapPadding - canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
+	  * @param {Array<Number>} overlapPadding - canvas渲染的时候 可能会有缝隙 用这个来修复 默认是1
 	  */
-	  function Sprite(texture, width, height, scale9Grid, overlapPadding) {
+	  function Sprite(texture, width, height, scale9Grid) {
+	    var overlapPadding = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
+
 	    _classCallCheck(this, Sprite);
 
 	    var _this = _possibleConstructorReturn(this, (Sprite.__proto__ || Object.getPrototypeOf(Sprite)).call(this));
@@ -186,7 +188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	    * canvas渲染的时候 可能会有缝隙 用这个来修复 默认是0
 	    */
-	    _this._overlapPadding = overlapPadding || 0;
+	    _this._overlapPadding = overlapPadding;
 
 	    _this._inited = false;
 
@@ -266,6 +268,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var realWidth = Math.max(this.width, this._gridTexture.width);
 	      var realHeight = Math.max(this.height, this._gridTexture.height);
 
+	      var frameX = this._gridTexture.frame ? this._gridTexture.frame.left : 0;
+	      var frameY = this._gridTexture.frame ? this._gridTexture.frame.top : 0;
+
 	      var scale9Grid = this._scale9Grid;
 	      var w1 = scale9Grid[0];
 	      var w2 = Math.max(0, scale9Grid[2]);
@@ -276,10 +281,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var h3 = Math.max(0, this._gridTexture.height - h1 - h2);
 
 	      var wArr = [w1, w2, w3];
-	      var xArr = [0, w1, w1 + w2];
+	      var xArr = [frameX, frameX + w1, frameX + w1 + w2];
 
 	      var hArr = [h1, h2, h3];
-	      var yArr = [0, h1, h1 + h2];
+	      var yArr = [frameY, frameY + h1, frameY + h1 + h2];
 
 	      var overlapPadding = this.overlapPadding;
 	      for (var row = 0; row < 3; row++) {

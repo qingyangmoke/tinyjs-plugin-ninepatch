@@ -208,6 +208,9 @@ class Sprite extends Tiny.Sprite {
     const realWidth = Math.max(this.width, this._gridTexture.width);
     const realHeight = Math.max(this.height, this._gridTexture.height);
 
+    const frameX = this._gridTexture.frame ? this._gridTexture.frame.left : 0;
+    const frameY = this._gridTexture.frame ? this._gridTexture.frame.top : 0;
+
     const scale9Grid = this._scale9Grid;
     const w1 = scale9Grid[0];
     const w2 = Math.max(0, scale9Grid[2]);
@@ -218,10 +221,10 @@ class Sprite extends Tiny.Sprite {
     const h3 = Math.max(0, this._gridTexture.height - h1 - h2);
 
     const wArr = [w1, w2, w3];
-    const xArr = [0, w1, w1 + w2];
+    const xArr = [frameX, frameX + w1, frameX + w1 + w2];
 
     const hArr = [h1, h2, h3];
-    const yArr = [0, h1, h1 + h2];
+    const yArr = [frameY, frameY + h1, frameY + h1 + h2];
 
     const overlapPadding = this.overlapPadding;
     for (let row = 0; row < 3; row++) {
